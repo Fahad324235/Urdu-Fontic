@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="بہترین اردو فونٹس ڈاؤن لوڈ کریں۔ نستعلیق، نسخ، اور دیگر فونٹس کی کلیکشن">
+    <meta name="keywords" content="اردو فونٹس, Urdu Fonts, Nastaleeq Fonts, Urdu Writing Fonts, Download Urdu Fonts">
+    <meta name="author" content="آپ کا نام">
+    <title>Urdu Fontic</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+        }
+        #searchBar {
+            width: 80%;
+            padding: 10px;
+            margin: 10px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: block;
+        }
+        main { padding: 20px; }
+        .font-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .font-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 220px;
+            text-align: center;
+        }
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+        .page-btn {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        .page-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Urdu Fontic</h1>
+        <input type="text" id="searchBar" placeholder="Search Fonts...." onkeyup="filterFonts()">
+    </header>
+    
+    <main>
+        <div class="font-list" id="fontList"></div>
+
+        <div class="pagination">
+            <button class="page-btn" id="prevBtn" onclick="prevPage()" disabled>پچھلا</button>
+            <button class="page-btn" id="nextBtn" onclick="nextPage()">اگلا</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 UrduFontic.online</p>
+    </footer>
+
+    <script>
+        let currentPage = 1;
+        const itemsPerPage = 5;
+        let fonts = [];
+        let filteredFonts = [];
+
+        function fetchFonts() {
+            fonts = [
+                { name: "Jameel Noori Nastaleeq Regular", image: "https://i.ibb.co/C5YP4knZ/20250204-092903.png", file: "https://urdugah.com/wp-content/uploads/sites/3/2021/10/Jameel-Noori-Nastaleeq-Regular.ttf" },
+                { name: "Jameel Noori Nastaleeq Kasheeda", image: "https://i.ibb.co/ksTFDdPx/20250204-091241.png", file: "https://filebin.net/086hbnfmae3aa6ur/Jameel Noori Nastaleeq Kasheeda.ttf" },
+                { name: "Gandhara Suls Regular", image: "https://i.ibb.co/dsq3858k/20250204-092353.png", file: "https://filebin.net/yxdig09azj1ph2fb/Gandhara Suls Regular.ttf" },
+                { name: "AlQalam Taj Nastaleeq Regular", image: "https://i.ibb.co/s9gCxdNk/20250204-093322.png", file: "https://filebin.net/hq0iryskjvncne3q/AlQalam Taj Nastaleeq Regular.ttf" },
+                { name: "Adnan 300 Regular", image: "https://i.ibb.co/V571qsk/20250204-102635.jpg", file: "https://filebin.net/l17bdo8ocyxrlo5i/300 Regular.ttf" },
+                { name: "Aadil Aadil", image: "https://i.ibb.co/k2tyH4ZS/20250204-104040.png", file: "https://filebin.net/ksgayel02j3qmyny/Aadil Aadil.ttf" }
+            ];
+            filteredFonts = [...fonts]; // اصل فونٹس کو محفوظ رکھیں
+            loadFonts();
+        }
+
+        function loadFonts() {
+            const fontList = document.getElementById('fontList');
+            fontList.innerHTML = '';
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            filteredFonts.slice(startIndex, endIndex).forEach(font => {
+                const fontItem = document.createElement('div');
+                fontItem.classList.add('font-item');
+                fontItem.innerHTML = `
+                    <p>${font.name}</p>
+                    <img src="${font.image}" alt="${font.name}" width="100px">
+                    <a href="${font.file}" class="download-btn" download>Dawnload Now</a>
+                `;
+                fontList.appendChild(fontItem);
+            });
+
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = endIndex >= filteredFonts.length;
+        }
+
+        function nextPage() {
+            if ((currentPage * itemsPerPage) < filteredFonts.length) {
+                currentPage++;
+                loadFonts();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadFonts();
+            }
+        }
+
+        function filterFonts() {
+            const searchText = document.getElementById('searchBar').value.toLowerCase();
+            filteredFonts = fonts.filter(font => font.name.toLowerCase().includes(searchText));
+            currentPage = 1; // سرچ کے بعد صفحہ نمبر 1 پر واپس لائیں
+            loadFonts();
+        }
+
+        fetchFonts();
+    </script>
+</body>
+</html>
+
